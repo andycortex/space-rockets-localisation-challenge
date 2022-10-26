@@ -7,8 +7,11 @@ import Launch from "./launch";
 import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
+import { useFavorites } from "../context/favorite";
 
 export default function App() {
+  const [{ launches }] = useFavorites();
+  console.log("Launches:", launches)
   return (
     <div>
       <NavBar />

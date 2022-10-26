@@ -8,6 +8,7 @@ import { formatDate } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
+import { useFavorites } from "../context/favorite";
 
 const PAGE_SIZE = 12;
 
@@ -20,7 +21,6 @@ export default function Launches() {
       sort: "launch_date_utc",
     }
   );
-  console.log(data, error);
   return (
     <div>
       <Breadcrumbs
@@ -46,6 +46,12 @@ export default function Launches() {
 }
 
 export function LaunchItem({ launch }) {
+  const [,{addLaunch}] = useFavorites()
+  
+  function handleAddFavorite(event) {
+    event.preventDefault()
+    addLaunch(launch)
+  }
   return (
     <Box
       as={Link}
@@ -79,6 +85,7 @@ export function LaunchItem({ launch }) {
       />
 
       <Box p="6">
+        
         <Box d="flex" alignItems="baseline">
           {launch.launch_success ? (
             <Badge px="2" variant="solid" variantColor="green">
@@ -98,6 +105,9 @@ export function LaunchItem({ launch }) {
             ml="2"
           >
             {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
+          </Box>
+          <Box marginLeft="auto">
+            <button onClick={handleAddFavorite}>Favorite</button>
           </Box>
         </Box>
 
